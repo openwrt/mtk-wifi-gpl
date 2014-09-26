@@ -83,12 +83,13 @@ VOID CFG80211RemainOnChannelTimeout(
 	else
 #endif /*RT_CFG80211_P2P_CONCURRENT_DEVICE */		
 	{
+		struct wireless_dev *pWdev = CFG80211_GetEventDevice(pAd)->ieee80211_ptr;
 		DBGPRINT(RT_DEBUG_TRACE, ("CFG80211_ROC: RemainOnChannelTimeout -- FINISH\n"));
 		
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,34))
-        	cfg80211_remain_on_channel_expired( CFG80211_GetEventDevice(pAd),	
+        	cfg80211_remain_on_channel_expired( pWdev,	
         		pCfg80211_ctrl->Cfg80211ChanInfo.cookie, pCfg80211_ctrl->Cfg80211ChanInfo.chan, 
-        		pCfg80211_ctrl->Cfg80211ChanInfo.ChanType, GFP_KERNEL);
+        		GFP_KERNEL);
 #endif /* LINUX_VERSION_CODE 2.6.34 */
 
 		pCfg80211_ctrl->Cfg80211RocTimerRunning = FALSE;

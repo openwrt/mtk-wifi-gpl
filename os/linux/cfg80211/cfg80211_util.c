@@ -342,7 +342,7 @@ BOOLEAN CFG80211_SupBandInit(
 		{
 			pChannels[IdLoop].flags = 0;
 			printk("====> Rader Channel %d\n", Cfg80211_Chan[IdLoop]);
-			pChannels[IdLoop].flags |= (IEEE80211_CHAN_RADAR | IEEE80211_CHAN_PASSIVE_SCAN);
+			pChannels[IdLoop].flags |= (IEEE80211_CHAN_RADAR | IEEE80211_CHAN_NO_IR);
 		}
 /*		CFG_TODO:
 		pChannels[IdLoop].flags
@@ -943,11 +943,15 @@ void CFG80211OS_P2pClientConnectResultInform(
 BOOLEAN CFG80211OS_RxMgmt(IN PNET_DEV pNetDev, IN INT32 freq, IN PUCHAR frame, IN UINT32 len) 
 {
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,4,0))
-	return cfg80211_rx_mgmt(pNetDev,
+	struct wireless_dev *pWdev;
+	pWdev = pNetDev->ieee80211_ptr ;
+
+	return cfg80211_rx_mgmt(pWdev,
 				freq,
 				0,       //CFG_TODO return 0 in dbm
 				frame,
 				len,
+				0,
 				GFP_ATOMIC); 
 #else
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37))
@@ -970,7 +974,7 @@ VOID CFG80211OS_TxStatus(IN PNET_DEV pNetDev, IN INT32 cookie, IN PUCHAR frame, 
 	struct wireless_dev *pWdev;
 	pWdev = pNetDev->ieee80211_ptr ;
 
-	return cfg80211_mgmt_tx_status(pNetDev, cookie, frame, len, ack, GFP_ATOMIC);
+	return cfg80211_mgmt_tx_status(pWdev, cookie, frame, len, ack, GFP_ATOMIC);
 #else
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37))
 	return cfg80211_mgmt_tx_status(pNetDev, cookie, frame, len, ack, GFP_ATOMIC);
@@ -1041,7 +1045,7 @@ VOID CFG80211OS_RecvObssBeacon(VOID *pCB, const PUCHAR pFrame, INT frameLen, INT
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0))
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,4,0))
-        cfg80211_report_obss_beacon(pWiphy, pFrame,frameLen, freq, 50, GFP_ATOMIC);
+        cfg80211_report_obss_beacon(pWiphy, pFrame,frameLen, freq, 50);
 #else
 	cfg80211_report_obss_beacon(pWiphy, pFrame,frameLen, freq, GFP_ATOMIC);
 #endif /*LINUX_VERSION_CODE: 3.4.0*/

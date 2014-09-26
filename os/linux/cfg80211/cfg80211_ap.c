@@ -269,9 +269,11 @@ VOID CFG80211_UpdateBeacon(
  
     BeaconTransmit.word = 0;
 	/* Should be Find the P2P IE Then Set Basic Rate to 6M */	
+#ifdef RT_CFG80211_P2P_SUPPORT
 	if (RTMP_CFG80211_VIF_P2P_GO_ON(pAd)) 
 	BeaconTransmit.field.MODE = MODE_OFDM; /* Use 6Mbps */
 	else
+#endif
 		BeaconTransmit.field.MODE = MODE_CCK;	
 	BeaconTransmit.field.MCS = MCS_RATE_6;
 
