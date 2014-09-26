@@ -60,8 +60,6 @@
 #endif /* RT_CFG80211_SUPPORT */
 
 
-#include "drs_extr.h"
-
 struct _RTMP_RA_LEGACY_TB;
 
 typedef struct _RTMP_ADAPTER RTMP_ADAPTER;
@@ -69,6 +67,8 @@ typedef struct _RTMP_ADAPTER *PRTMP_ADAPTER;
 
 typedef struct _RTMP_CHIP_OP_ RTMP_CHIP_OP;
 typedef struct _RTMP_CHIP_CAP_ RTMP_CHIP_CAP;
+
+#include "drs_extr.h"
 
 #ifdef BB_SOC
 #include "os/bb_soc.h"

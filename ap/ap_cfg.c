@@ -1925,9 +1925,7 @@ INT RTMPAPQueryInformation(
     STRING	driverVersion[16];
 	struct wifi_dev *wdev;
 
-#if defined(DBG) || defined(WSC_AP_SUPPORT) ||defined(BB_SOC)
 	UCHAR	apidx = pObj->ioctl_if;
-#endif
 	ULONG ulInfo;
 #ifdef SNMP_SUPPORT
 	//ULONG ulInfo;
