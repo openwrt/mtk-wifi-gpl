@@ -1665,6 +1665,7 @@ int RtmpOSNetDevAttach(
 	/* If we need hook some callback function to the net device structrue, now do it. */
 	if (pDevOpHook) {
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,31)
+		pNetDevOps->ndo_set_mac_address = eth_mac_addr;
 		pNetDevOps->ndo_open = pDevOpHook->open;
 		pNetDevOps->ndo_stop = pDevOpHook->stop;
 		pNetDevOps->ndo_start_xmit =
