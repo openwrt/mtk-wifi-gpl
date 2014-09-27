@@ -1139,7 +1139,10 @@ BOOLEAN CFG80211_SupBandReInit(
 {
 	PRTMP_ADAPTER pAd = (PRTMP_ADAPTER)pAdCB;
 	CFG80211_BAND BandInfo;
+	CFG80211_CB *pCfg80211_CB = CFG80211CB;
+	struct wiphy *pWiphy = pCfg80211_CB->pCfg80211_Wdev->wiphy;
 
+	memcpy(pWiphy->perm_addr, pAd->PermanentAddress, ETH_ALEN);
 
 	CFG80211DBG(RT_DEBUG_TRACE, ("80211> re-init bands...\n"));
 
