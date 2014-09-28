@@ -43,4 +43,9 @@ define Build/Compile
 		modules
 endef
 
+define KernelPackage/mtk-wifi-gpl/install
+	$(INSTALL_DIR) $(1)/etc/Wireless/RT2860AP
+	$(CP) $(PKG_BUILD_DIR)/conf/RT2860AP.dat_ac $(1)/etc/Wireless/RT2860AP/RT2860AP.dat
+endef
+
 $(eval $(call KernelPackage,mtk-wifi-gpl))
